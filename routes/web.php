@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleUserController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,5 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::resource('scheduleuser', ScheduleUserController::class);
-
-    Route::get('/scheduleuser/date', [ScheduleUserController::class, 'date'])->name('scheduleuser.date');
+    Route::resource('booking', BookingController::class);
 });

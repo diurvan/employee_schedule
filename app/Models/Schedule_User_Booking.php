@@ -20,6 +20,8 @@ class Schedule_User_Booking extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_user',
+        'id_schedule_user',
         'book_date',
         'type',
         'book_start',

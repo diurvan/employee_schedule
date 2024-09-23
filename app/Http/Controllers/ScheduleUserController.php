@@ -66,8 +66,9 @@ class ScheduleUserController extends Controller
             DB::commit();
 
         }catch(Exception $ex){
-            Log::debug($ex);
             DB::rollback();
+            return redirect()->route('admin.scheduleuser.index')
+            ->withErrors(['general' => 'Hubo un error al guardar el horario. Por favor, inténtalo de nuevo.']);
         }
         return redirect()->route('admin.scheduleuser.index');
     }
@@ -111,10 +112,28 @@ class ScheduleUserController extends Controller
 
 
 
-    public function date(Integer $id)
-    {
-        $booking = Schedule_User_Booking::where('', $id);
-        return view('schedule.date', compact('schedule'));
-    }
+    // public function date(Integer $id)
+    // {
+    //     $bookings = Schedule_User_Booking::where('id_schedule_user', $id);
+    //     Log::debug('entro');
+    //     return view('schedule.date', compact('bookings'));
+    // }    
+    // public function datestore(Request $request)
+    // {
+    //     $request->validate([
+    //         'id_schedule_user' => 'required|integer',
+    //         'type' => 'required|in:meeting,other',
+    //         'book_start' => 'required|date_format:H:i',
+    //         'book_end' => 'required|date_format:H:i'
+    //     ]);
+
+    //     try{
+    //         Schedule_User_Booking::create($request->all());
+    //     }catch(Exception $ex){
+    //         return redirect()->route('admin.scheduleuser.date')
+    //         ->withErrors(['general' => 'Hubo un error al guardar el horario. Por favor, inténtalo de nuevo.']);
+    //     }
+    //     return redirect()->route('admin.scheduleuser.date');
+    // }
 
 }
