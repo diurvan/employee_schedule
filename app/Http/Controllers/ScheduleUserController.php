@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule_User;
-use App\Models\Schedule_User_Booking;
 use App\Models\Schedule_User_Detail;
 use App\Models\User;
 use Exception;
@@ -14,6 +13,16 @@ use Ramsey\Uuid\Type\Integer;
 
 class ScheduleUserController extends Controller
 {
+
+    protected function compare_times_in_hours($start_time, $end_time){
+        $inicioTimestamp = strtotime($start_time);
+        $finTimestamp = strtotime($end_time);
+
+        $diferenciaSegundos = $finTimestamp - $inicioTimestamp;
+        $diferenciaHoras = $diferenciaSegundos / 3600;
+        return $diferenciaHoras;
+    }
+
     public function index()
     {
         $schedules = Schedule_User::join('schedule_user_detail', 'schedule_user.id', '=', 'schedule_user_detail.id_schedule_user')
@@ -48,6 +57,20 @@ class ScheduleUserController extends Controller
         ]);
 
         try{
+            // echo $this->compare_times_in_hours($request->schedule_start, $request->schedule_end);
+            // echo $this->compare_times_in_hours($request->eating_schedule_start, $request->eating_schedule_end);
+            // return;
+
+
+            if($this->compare_times_in_hours($request->schedule_start, $request->schedule_end) != 7){
+                return redirect()->route('admin.scheduleuser.index')
+                ->withErrors(['general' => 'Available times must be 7 hours']);
+            }
+            if($this->compare_times_in_hours($request->eating_schedule_start, $request->eating_schedule_end) != 1){
+                return redirect()->route('admin.scheduleuser.index')
+                ->withErrors(['general' => 'Eating times must be 1 hour']);
+            }
+
             DB::begintransaction();
     
             $schedule_created = Schedule_User::create($request->all());
@@ -68,7 +91,7 @@ class ScheduleUserController extends Controller
         }catch(Exception $ex){
             DB::rollback();
             return redirect()->route('admin.scheduleuser.index')
-            ->withErrors(['general' => 'Hubo un error al guardar el horario. Por favor, inténtalo de nuevo.']);
+            ->withErrors(['general' => 'There was an error on saving times.Try again.']);
         }
         return redirect()->route('admin.scheduleuser.index');
     }
@@ -109,7 +132,6 @@ class ScheduleUserController extends Controller
 
         return redirect()->route('admin.scheduleuser.index');
     }
-
 
 
     // public function date(Integer $id)

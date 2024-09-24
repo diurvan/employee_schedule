@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('schedule_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user');
-            $table->date('schedule_date')->unique();
+            $table->date('schedule_date');
             $table->timestamps();
+
+            $table->index(['id_user', 'schedule_date']);
+            $table->unique(['id_user','schedule_date']);
 
             $table->foreign('id_user', 'fk_schedule_user')->references('id')->on('users');
         });
