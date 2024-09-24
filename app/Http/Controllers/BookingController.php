@@ -79,8 +79,9 @@ class BookingController extends Controller
             ->orWhereBetween('book_end', [$request->book_start, $request->book_end])
             ->where('id_schedule_user', $request->id_schedule_user)
             ->get();
+            
             if($schedule_user_booking_found){
-                $error_schedule[] = 'Time between '.$request->book_start.' and '.$request->book_end.' is busy ';
+                $error_schedule[] = 'Time between '.$request->book_start.' and '.$request->book_end.' is busy '.$request->id_schedule_user;
             }
 
 
@@ -100,7 +101,6 @@ class BookingController extends Controller
                 Schedule_User_Booking::create($data_booking);
             }
         }catch(Exception $ex){
-            Log::debug($ex);
             return redirect()->route('admin.booking.show', $request->id_schedule_user)
             ->withErrors(['general' => 'Hubo un error al guardar el horario. Por favor, inténtalo de nuevo.']);
         }
