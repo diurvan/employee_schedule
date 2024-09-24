@@ -9,6 +9,7 @@ use App\Models\Schedule_User_Booking;
 use App\Models\Schedule_User_Detail;
 use DateTime;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class ScheduleUserSeeder extends Seeder
 {
@@ -69,50 +70,54 @@ class ScheduleUserSeeder extends Seeder
             // }
         }
 
-        $schedule_user = Schedule_User::get()->sortBy('id_user');
-        $current_user = 0; $count_booking = 0;
-        if(count($schedule_user)){
-            $current_user = $schedule_user[0]->id_user;
-        }
-        for ($i = 0; $i < count($schedule_user); $i++) {
-            if($current_user == $schedule_user[$i]->id_user){                
-                // $timestamp = strtotime($schedule_user[$i]->schedule_date);
-                // $day = date('l', $timestamp);
-                if($count_booking < 2){
-                    $data = [
-                        ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
-                        'type'=>'meeting', 'book_start'=>'09:00', 'book_end'=>'09:59'],
-                        ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
-                        'type'=>'meeting', 'book_start'=>'10:00', 'book_end'=>'10:59'],
-                        ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
-                        'type'=>'meeting', 'book_start'=>'11:00', 'book_end'=>'11:59'],
-                        ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
-                        'type'=>'meeting', 'book_start'=>'12:00', 'book_end'=>'12:59'],
-                        ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
-                        'type'=>'meeting', 'book_start'=>'14:00', 'book_end'=>'14:59'],
-                        ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
-                        'type'=>'meeting', 'book_start'=>'15:00', 'book_end'=>'15:59']
-                    ];                
-                    Schedule_User_Booking::insert($data);
-                    $count_booking++;
-                    $data = [];
-                }
-                // Schedule_User_Booking::create([
-                //     'id_user' => $current_user,
-                //     'id_schedule_user' => $schedule_user[$i]->id,
-                //     'book_date' => $schedule_user[$i]->schedule_date,
-                //     'type'=>'meeting',
-                //     'book_start'=>'09:00',
-                //     'book_end'=>'10:00'
-                // ]);
-            }else{
-                $count_booking = 0;
-            }
-            // if( isset($schedule_user[$i+1]) && $current_user != $schedule_user[$i+1]->id_user){
-            //     $count_booking = 0;
-            // }
-            $current_user = $schedule_user[$i]->id_user;
-        }
+        
+
+
+
+        // $schedule_user = Schedule_User::get()->sortBy('id_user');
+        // $current_user = 0; $count_booking = 0;
+        // if(count($schedule_user)){
+        //     $current_user = $schedule_user[0]->id_user;
+        // }
+        // for ($i = 0; $i < count($schedule_user); $i++) {
+        //     if($current_user == $schedule_user[$i]->id_user){                
+        //         // $timestamp = strtotime($schedule_user[$i]->schedule_date);
+        //         // $day = date('l', $timestamp);
+        //         if($count_booking < 2){
+        //             $data = [
+        //                 ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
+        //                 'type'=>'meeting', 'book_start'=>'09:00', 'book_end'=>'09:59'],
+        //                 ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
+        //                 'type'=>'meeting', 'book_start'=>'10:00', 'book_end'=>'10:59'],
+        //                 ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
+        //                 'type'=>'meeting', 'book_start'=>'11:00', 'book_end'=>'11:59'],
+        //                 ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
+        //                 'type'=>'meeting', 'book_start'=>'12:00', 'book_end'=>'12:59'],
+        //                 ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
+        //                 'type'=>'meeting', 'book_start'=>'14:00', 'book_end'=>'14:59'],
+        //                 ['id_user' => $current_user, 'id_schedule_user' => $schedule_user[$i]->id, 'book_date' => $schedule_user[$i]->schedule_date,
+        //                 'type'=>'meeting', 'book_start'=>'15:00', 'book_end'=>'15:59']
+        //             ];                
+        //             Schedule_User_Booking::insert($data);
+        //             $count_booking++;
+        //             $data = [];
+        //         }
+        //         // Schedule_User_Booking::create([
+        //         //     'id_user' => $current_user,
+        //         //     'id_schedule_user' => $schedule_user[$i]->id,
+        //         //     'book_date' => $schedule_user[$i]->schedule_date,
+        //         //     'type'=>'meeting',
+        //         //     'book_start'=>'09:00',
+        //         //     'book_end'=>'10:00'
+        //         // ]);
+        //     }else{
+        //         $count_booking = 0;
+        //     }
+        //     // if( isset($schedule_user[$i+1]) && $current_user != $schedule_user[$i+1]->id_user){
+        //     //     $count_booking = 0;
+        //     // }
+        //     $current_user = $schedule_user[$i]->id_user;
+        // }
         
     }
 }
