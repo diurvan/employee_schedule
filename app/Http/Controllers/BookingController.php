@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BookingExport;
 use App\Models\Schedule_User;
 use App\Models\Schedule_User_Booking;
 use App\Models\Schedule_User_Detail;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingController extends Controller
 {
@@ -167,5 +169,15 @@ class BookingController extends Controller
         // ->get();
         
         // return response()->json(['success'=>(!count($schedule_user_booking_found)>0), 'data' => $schedule_user_booking_found ], 200);
+    }
+
+
+    public function searchexcel(Request $request){
+
+        $query_date = $request->query('query_date');
+        $query_time = $request->query('query_time');
+        
+        return Excel::download(new BookingExport($query_date.' '.$query_time), 'FileBooking.xlsx');
+
     }
 }
