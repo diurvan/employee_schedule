@@ -5,6 +5,8 @@ namespace App\Exports;
 use App\Models\Schedule_User;
 use App\Models\Schedule_User_Booking;
 use DateTime;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
@@ -20,7 +22,7 @@ class MiPrimeraHoja implements FromCollection, WithHeadings
     }
     public function collection()
     {
-        date_default_timezone_set('America/Los_Angeles');
+        // date_default_timezone_set('America/Los_Angeles');
 
         $query_datetime = $this->query_datetime;
         
@@ -31,7 +33,7 @@ class MiPrimeraHoja implements FromCollection, WithHeadings
         
         $dateTime->modify('+59 minutes');
         $hora_end = $dateTime->format('H:i');
-        
+        DB::enableQueryLog();
         $schedule_user_found = Schedule_User::where('schedule_user.schedule_date', $fecha)
         ->join('schedule_user_detail', 'schedule_user_detail.id_schedule_user', 'schedule_user.id')
         // ->rightjoin('schedule_user_booking', 'schedule_user_booking.id_schedule_user', 'schedule_user.id')
@@ -39,7 +41,7 @@ class MiPrimeraHoja implements FromCollection, WithHeadings
         ->where('type', 'available')
         // ->whereNotBetween('book_start', [$hora, $hora_end])
         ->get();
-
+        Log::debug(DB::getQueryLog());
         // $schedule_user_booking_found = Schedule_User_Booking::whereBetween('book_start', [$hora, $hora_end])
         // ->where('book_date', $fecha)
         // ->get();
@@ -60,7 +62,7 @@ class MiSegundaHoja implements FromCollection, WithHeadings
     }
     public function collection()
     {
-        date_default_timezone_set('America/Los_Angeles');
+        // date_default_timezone_set('America/Los_Angeles');
 
         $query_datetime = $this->query_datetime;
         

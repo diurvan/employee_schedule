@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/search', [BookingController::class, 'search']);
-Route::get('/searchexcel/:query_date/:query_time', [BookingController::class, 'searchexcel']);
+Route::get('/searchexcel/{query_date}/{query_time}', [BookingController::class, 'searchexcel']);

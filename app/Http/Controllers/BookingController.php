@@ -79,8 +79,8 @@ class BookingController extends Controller
             ->orWhereBetween('book_end', [$request->book_start, $request->book_end])
             ->where('id_schedule_user', $request->id_schedule_user)
             ->get();
-            
-            if($schedule_user_booking_found){
+
+            if($schedule_user_booking_found && count($schedule_user_booking_found)>0){
                 $error_schedule[] = 'Time between '.$request->book_start.' and '.$request->book_end.' is busy '.$request->id_schedule_user;
             }
 
@@ -172,11 +172,7 @@ class BookingController extends Controller
     }
 
 
-    public function searchexcel(Request $request){
-
-        $query_date = $request->query('query_date');
-        $query_time = $request->query('query_time');
-        
+    public function searchexcel(Request $request, $query_date, $query_time){
         return Excel::download(new BookingExport($query_date.' '.$query_time), 'FileBooking.xlsx');
 
     }
