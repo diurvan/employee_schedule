@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ### Search Excel
 # GET {{url_api}}/api/searchexcel?query_date=2024-10-01&query_time=14:00:00
-GET {{url_api}}/api/searchexcel/2024-10-01/09:00:00
+GET {{url_api}}/api/searchexcel/2024-10-01/10:00:00
 # GET {{url_api}}/api/searchexcel/query_date/2024-10-01/query_time/14:00:00
 Content-Type: application/json
 

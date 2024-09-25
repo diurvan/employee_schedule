@@ -33,3 +33,7 @@ php artisan serve
 
 User: admin@admin.com
 Password: P@ssw0rd
+
+## Api Excel download
+
+http://localhost:8000/api/searchexcel/2024-10-01/10:00:00
